@@ -17,12 +17,8 @@
  * along with habbo_r63b_v2. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package tk.jomp16.utils.plugin.api
+package tk.jomp16.utils.plugin.event.events
 
-abstract class PluginListener {
-    open fun onCreate() {
-    }
+import tk.jomp16.utils.plugin.api.PluginListener
 
-    open fun onDestroy() {
-    }
-}
+class PluginListenerAddedEvent(val pluginListener: PluginListener)
