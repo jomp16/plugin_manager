@@ -25,6 +25,7 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import net.engio.mbassy.bus.MBassador
 import net.engio.mbassy.bus.error.IPublicationErrorHandler
 import org.reflections.Reflections
+import org.reflections.util.ClasspathHelper
 import org.reflections.util.ConfigurationBuilder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -39,7 +40,6 @@ import java.util.*
 
 class PluginManager : AutoCloseable {
     private val log: Logger = LoggerFactory.getLogger(javaClass)
-
     val pluginsListener: MutableList<Pair<ClassLoader, PluginListener>> = ArrayList()
     val pluginsJar: MutableMap<String, Triple<PluginInfo, URLClassLoader, List<PluginListener>>> = HashMap()
     private val eventBus = MBassador<Any>(IPublicationErrorHandler { error -> log.error("An error happened when handling listener!", error) })
@@ -57,7 +57,6 @@ class PluginManager : AutoCloseable {
 
     fun addPluginJar(pluginFile: File): Boolean {
         val pluginPair = loadPluginListenersFromJar(pluginFile)
-
         val pluginPropertiesStream = pluginPair.first.getResourceAsStream("plugin.json")
 
         if (pluginPropertiesStream == null) {
@@ -65,7 +64,6 @@ class PluginManager : AutoCloseable {
 
             return false
         }
-
         val pluginInfo: PluginInfo = objectMapper.readValue(pluginPropertiesStream)
 
         if (pluginsJar.containsKey(pluginInfo.name)) return false
@@ -124,15 +122,20 @@ class PluginManager : AutoCloseable {
         eventBus.publish(eventClass)
     }
 
+    fun loadPluginsFromClassLoader(classLoader: ClassLoader) {
+        val reflections = Reflections(ConfigurationBuilder().addUrls(ClasspathHelper.forClassLoader(classLoader)))
+        val pluginListenerClasses = reflections.getSubTypesOf(PluginListener::class.java)
+
+        pluginListenerClasses.map { it.getConstructor().newInstance() }.forEach { addPlugin(it, classLoader) }
+    }
+
     private fun loadPluginListenersFromJar(jarFile: File): Pair<URLClassLoader, List<PluginListener>> {
         val pluginListeners: MutableList<PluginListener> = ArrayList()
-
         val urlClassLoader = URLClassLoader(arrayOf<URL>(jarFile.toURI().toURL()), ClassLoader.getSystemClassLoader())
-
         val reflections = Reflections(ConfigurationBuilder().addUrls(URL("file:" + jarFile.path)).addClassLoader(urlClassLoader))
-        val eventsClasses = reflections.getSubTypesOf(PluginListener::class.java)
+        val pluginListenerClasses = reflections.getSubTypesOf(PluginListener::class.java)
 
-        eventsClasses.map { it.getConstructor() }.mapTo(pluginListeners) { it.newInstance() }
+        pluginListenerClasses.map { it.getConstructor() }.mapTo(pluginListeners) { it.newInstance() }
 
         return urlClassLoader to pluginListeners
     }
