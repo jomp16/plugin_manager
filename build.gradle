@@ -20,12 +20,7 @@
 group "tk.jomp16.utils.plugin"
 
 dependencies {
-    //noinspection GrUnresolvedAccess
     compile "org.reflections:reflections:$reflections_version"
-
-    //noinspection GrUnresolvedAccess
     compile "net.engio:mbassador:$mbassador_version"
-
-    //noinspection GrUnresolvedAccess
     compile "com.fasterxml.jackson.module:jackson-module-kotlin:$jackson_version"
 }
