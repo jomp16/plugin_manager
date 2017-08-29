@@ -122,11 +122,11 @@ class PluginManager : AutoCloseable {
         eventBus.publish(eventClass)
     }
 
-    fun loadPluginsFromClassLoader(classLoader: ClassLoader) {
-        val reflections = Reflections(ConfigurationBuilder().addUrls(ClasspathHelper.forClassLoader(classLoader)))
+    fun loadPlugins() {
+        val reflections = Reflections(ConfigurationBuilder().addUrls(ClasspathHelper.forClassLoader()).addUrls(ClasspathHelper.forManifest()))
         val pluginListenerClasses = reflections.getSubTypesOf(PluginListener::class.java)
 
-        pluginListenerClasses.map { it.getConstructor().newInstance() }.forEach { addPlugin(it, classLoader) }
+        pluginListenerClasses.map { it.getConstructor().newInstance() }.forEach { addPlugin(it, it.javaClass.classLoader) }
     }
 
     private fun loadPluginListenersFromJar(jarFile: File): Pair<URLClassLoader, List<PluginListener>> {
