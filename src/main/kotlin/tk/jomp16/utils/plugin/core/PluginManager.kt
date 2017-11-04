@@ -36,12 +36,11 @@ import tk.jomp16.utils.plugin.json.PluginInfo
 import java.io.File
 import java.net.URL
 import java.net.URLClassLoader
-import java.util.*
 
 class PluginManager : AutoCloseable {
     private val log: Logger = LoggerFactory.getLogger(javaClass)
-    val pluginsListener: MutableList<Pair<ClassLoader, PluginListener>> = ArrayList()
-    val pluginsJar: MutableMap<String, Triple<PluginInfo, URLClassLoader, List<PluginListener>>> = HashMap()
+    val pluginsListener: MutableList<Pair<ClassLoader, PluginListener>> = mutableListOf()
+    val pluginsJar: MutableMap<String, Triple<PluginInfo, URLClassLoader, List<PluginListener>>> = mutableMapOf()
     private val eventBus = MBassador<Any>(IPublicationErrorHandler { error -> log.error("An error happened when handling listener!", error) })
     private val objectMapper: ObjectMapper = jacksonObjectMapper()
 
@@ -133,7 +132,7 @@ class PluginManager : AutoCloseable {
     }
 
     private fun loadPluginListenersFromJar(jarFile: File): Pair<URLClassLoader, List<PluginListener>> {
-        val pluginListeners: MutableList<PluginListener> = ArrayList()
+        val pluginListeners: MutableList<PluginListener> = mutableListOf()
         val urlClassLoader = URLClassLoader(arrayOf<URL>(jarFile.toURI().toURL()), ClassLoader.getSystemClassLoader())
         val reflections = Reflections(ConfigurationBuilder().addUrls(URL("file:" + jarFile.path)).addClassLoader(urlClassLoader))
         val pluginListenerClasses = reflections.getSubTypesOf(PluginListener::class.java)
