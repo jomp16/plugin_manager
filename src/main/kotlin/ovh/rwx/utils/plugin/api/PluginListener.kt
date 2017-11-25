@@ -1,23 +1,23 @@
 /*
- * Copyright (C) 2015-2017 jomp16
+ * Copyright (C) 2015-2017 jomp16 <root@rwx.ovh>
  *
- * This file is part of habbo_r63b_v2.
+ * This file is part of plugin_manager.
  *
- * habbo_r63b_v2 is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
+ * plugin_manager is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * habbo_r63b_v2 is distributed in the hope that it will be useful,
+ * plugin_manager is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * GNU Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with habbo_r63b_v2. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with plugin_manager. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package tk.jomp16.utils.plugin.api
+package ovh.rwx.utils.plugin.api
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

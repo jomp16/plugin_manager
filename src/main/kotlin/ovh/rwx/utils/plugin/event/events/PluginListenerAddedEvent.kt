@@ -17,10 +17,8 @@
  * along with plugin_manager. If not, see <http://www.gnu.org/licenses/>.
  */
 
-group "ovh.rwx.utils.plugin"
+package ovh.rwx.utils.plugin.event.events
 
-dependencies {
-    compile "org.reflections:reflections:$reflections_version"
-    compile "net.engio:mbassador:$mbassador_version"
-    compile "com.fasterxml.jackson.module:jackson-module-kotlin:$jackson_version"
-}
+import ovh.rwx.utils.plugin.api.PluginListener
+
+class PluginListenerAddedEvent(val pluginListener: PluginListener)
