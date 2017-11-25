@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2017 jomp16
+ * Copyright (C) 2015-2017 jomp16 <root@rwx.ovh>
  *
  * This file is part of plugin_manager.
  *
@@ -17,7 +17,7 @@
  * along with plugin_manager. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package tk.jomp16.utils.plugin.core
+package ovh.rwx.utils.plugin.core
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
@@ -29,10 +29,10 @@ import org.reflections.util.ClasspathHelper
 import org.reflections.util.ConfigurationBuilder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import tk.jomp16.utils.plugin.api.PluginListener
-import tk.jomp16.utils.plugin.event.events.PluginListenerAddedEvent
-import tk.jomp16.utils.plugin.event.events.PluginListenerRemovedEvent
-import tk.jomp16.utils.plugin.json.PluginInfo
+import ovh.rwx.utils.plugin.api.PluginListener
+import ovh.rwx.utils.plugin.event.events.PluginListenerAddedEvent
+import ovh.rwx.utils.plugin.event.events.PluginListenerRemovedEvent
+import ovh.rwx.utils.plugin.json.PluginInfo
 import java.io.File
 import java.net.URL
 import java.net.URLClassLoader

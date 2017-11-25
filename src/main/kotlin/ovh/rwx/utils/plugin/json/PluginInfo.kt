@@ -17,10 +17,15 @@
  * along with plugin_manager. If not, see <http://www.gnu.org/licenses/>.
  */
 
-group "ovh.rwx.utils.plugin"
+package ovh.rwx.utils.plugin.json
 
-dependencies {
-    compile "org.reflections:reflections:$reflections_version"
-    compile "net.engio:mbassador:$mbassador_version"
-    compile "com.fasterxml.jackson.module:jackson-module-kotlin:$jackson_version"
-}
+import com.fasterxml.jackson.annotation.JsonProperty
+
+data class PluginInfo(
+        @JsonProperty("name")
+        val name: String,
+        @JsonProperty("version")
+        val version: String,
+        @JsonProperty("authors")
+        val authors: Collection<String>
+)
