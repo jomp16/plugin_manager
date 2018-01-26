@@ -68,14 +68,14 @@ class PluginManager : AutoCloseable {
         if (pluginsJar.containsKey(pluginInfo.name)) return false
 
         pluginPair.second.forEach { addPlugin(it, pluginPair.first) }
-        pluginsJar.put(pluginInfo.name, Triple(pluginInfo, pluginPair.first, pluginPair.second))
+        pluginsJar[pluginInfo.name] = Triple(pluginInfo, pluginPair.first, pluginPair.second)
 
         log.info("Loaded plugin: $pluginInfo")
 
         return true
     }
 
-    @Suppress("MemberVisibilityCanPrivate")
+    @Suppress("MemberVisibilityCanBePrivate")
     fun addPlugin(pluginListener: PluginListener, classLoader: ClassLoader = javaClass.classLoader) {
         if (pluginsListener.map { it.second }.any { it == pluginListener }) return
 
@@ -89,7 +89,7 @@ class PluginManager : AutoCloseable {
         log.trace("${pluginListener.javaClass.simpleName} subscribed!")
     }
 
-    @Suppress("MemberVisibilityCanPrivate")
+    @Suppress("MemberVisibilityCanBePrivate")
     fun removePlugin(pluginListener: PluginListener) {
         if (!pluginsListener.map { it.second }.any { it == pluginListener }) return
 
@@ -119,7 +119,7 @@ class PluginManager : AutoCloseable {
         eventBus.publishAsync(eventClass)
     }
 
-    @Suppress("MemberVisibilityCanPrivate")
+    @Suppress("MemberVisibilityCanBePrivate")
     fun executeEvent(eventClass: Any) {
         eventBus.publish(eventClass)
     }
