@@ -65,14 +65,25 @@ class PluginManager : AutoCloseable {
         }
         val pluginInfo: PluginInfo = objectMapper.readValue(pluginPropertiesStream)
 
+        pluginPropertiesStream.close()
+
         if (pluginsJar.containsKey(pluginInfo.name)) return false
 
-        pluginPair.second.forEach { addPlugin(it, pluginPair.first) }
-        pluginsJar[pluginInfo.name] = Triple(pluginInfo, pluginPair.first, pluginPair.second)
+        try {
+            pluginPair.second.forEach { addPlugin(it, pluginPair.first) }
+            pluginsJar[pluginInfo.name] = Triple(pluginInfo, pluginPair.first, pluginPair.second)
 
-        log.info("Loaded plugin: $pluginInfo")
+            log.info("Loaded plugin: $pluginInfo")
 
-        return true
+            return true
+        } catch (e: Exception) {
+            log.error("Failed to load plugin $pluginInfo!", e)
+
+            // Close the URLClassLoader of this plugin jar
+            pluginPair.first.close()
+        }
+
+        return false
     }
 
     @Suppress("MemberVisibilityCanBePrivate")
@@ -128,7 +139,13 @@ class PluginManager : AutoCloseable {
         val reflections = Reflections(ConfigurationBuilder().addUrls(ClasspathHelper.forClassLoader()).addUrls(ClasspathHelper.forManifest()))
         val pluginListenerClasses = reflections.getSubTypesOf(PluginListener::class.java)
 
-        pluginListenerClasses.map { it.getConstructor().newInstance() }.forEach { addPlugin(it, it.javaClass.classLoader) }
+        pluginListenerClasses.map { it.getConstructor().newInstance() }.forEach {
+            try {
+                addPlugin(it, it.javaClass.classLoader)
+            } catch (e: Exception) {
+                log.error("Failed to load plugin ${it.javaClass.simpleName}!", e)
+            }
+        }
     }
 
     private fun loadPluginListenersFromJar(jarFile: File): Pair<URLClassLoader, List<PluginListener>> {
