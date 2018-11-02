@@ -118,7 +118,7 @@ class PluginManager : AutoCloseable {
         if (!pluginsJar.containsKey(pluginName)) return false
 
         pluginsJar.remove(pluginName)?.let {
-            it.third.forEach { removePlugin(it) }
+            it.third.forEach { pluginListener -> removePlugin(pluginListener) }
 
             it.second.close()
         }
