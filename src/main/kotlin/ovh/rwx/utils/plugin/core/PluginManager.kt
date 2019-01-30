@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2018 jomp16 <root@rwx.ovh>
+ * Copyright (C) 2015-2019 jomp16 <root@rwx.ovh>
  *
  * This file is part of plugin_manager.
  *
@@ -136,7 +136,7 @@ class PluginManager : AutoCloseable {
     }
 
     fun loadPlugins() {
-        val reflections = Reflections(ConfigurationBuilder().addUrls(ClasspathHelper.forClassLoader()).addUrls(ClasspathHelper.forManifest()))
+        val reflections = Reflections(ConfigurationBuilder().addUrls(ClasspathHelper.forClassLoader()).addUrls(ClasspathHelper.forManifest()).addUrls(ClasspathHelper.forJavaClassPath()))
         val pluginListenerClasses = reflections.getSubTypesOf(PluginListener::class.java)
 
         pluginListenerClasses.map { it.getConstructor().newInstance() }.forEach {
