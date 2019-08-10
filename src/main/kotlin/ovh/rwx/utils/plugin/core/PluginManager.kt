@@ -24,9 +24,9 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import net.engio.mbassy.bus.MBassador
 import net.engio.mbassy.bus.error.IPublicationErrorHandler
-import org.reflections.Reflections
-import org.reflections.util.ClasspathHelper
-import org.reflections.util.ConfigurationBuilder
+import org.reflections8.Reflections
+import org.reflections8.util.ClasspathHelper
+import org.reflections8.util.ConfigurationBuilder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import ovh.rwx.utils.plugin.api.PluginListener

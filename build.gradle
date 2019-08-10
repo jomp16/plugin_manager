@@ -20,7 +20,7 @@
 group "ovh.rwx.utils.plugin"
 
 dependencies {
-    compile "org.reflections:reflections:$reflections_version"
+    compile "net.oneandone.reflections8:reflections8:$reflections_version"
     compile "net.engio:mbassador:$mbassador_version"
     compile "com.fasterxml.jackson.module:jackson-module-kotlin:$jackson_version"
     compile "javax.servlet:javax.servlet-api:4.0.1"
