@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2019 jomp16 <root@rwx.ovh>
+ * Copyright (C) 2015-2020 jomp16 <root@rwx.ovh>
  *
  * This file is part of plugin_manager.
  *
@@ -20,8 +20,8 @@
 group "ovh.rwx.utils.plugin"
 
 dependencies {
-    compile "net.oneandone.reflections8:reflections8:$reflections_version"
-    compile "net.engio:mbassador:$mbassador_version"
-    compile "com.fasterxml.jackson.module:jackson-module-kotlin:$jackson_version"
-    compile "javax.servlet:javax.servlet-api:4.0.1"
+    implementation "net.oneandone.reflections8:reflections8:$reflections_version"
+    api "net.engio:mbassador:$mbassador_version"
+    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:$jackson_version"
+    implementation "javax.servlet:javax.servlet-api:4.0.1"
 }
